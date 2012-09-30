@@ -19,13 +19,13 @@ def presentation(topic, name, titles, photos, captions, text):
 	l = 0
 	newsection = 3
 
-	for i in xrange(N):
-        	photos[i].encode('ascii','ignore')
-		captions[i].encode('ascii','ignore')
-	for i in xrange(N/3):
-		titles[i].encode('ascii','ignore')
-	for i in xrange(3*N):
-		text[i].encode('ascii','ignore')
+ 	for i in xrange(N):
+         	photos[i].encode('ascii','ignore')
+ 		captions[i].encode('ascii','ignore')
+ 	for i in xrange(N/3):
+ 		titles[i].encode('ascii','ignore')
+ 	for i in xrange(3*N):
+ 		text[i].encode('ascii','ignore')
 
 
 	outfile = open('output.tex','w')
@@ -39,7 +39,7 @@ def presentation(topic, name, titles, photos, captions, text):
 	x = intro % (themes[randint(0,len(themes)-1)], colors[randint(0,len(colors)-1)], topic, topic, name, 'hackNY')
 	outfile.write(x + '\n')
 
-	for k in xrange(0,3*N,3):
+	for k in xrange(0,3*N-1,3):
 	
 		p = randint(1,3)
 
