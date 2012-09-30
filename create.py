@@ -1,0 +1,5 @@
+f = open('text').read()
+x = f % ('Tigers', 'Sean', 'Nick and his hot pants', 'this is a tiger','i like tigers','tigers','comics_Layer.jpg')
+outfile = open('tobelatexed','w')
+outfile.write(x)
+outfile.close()

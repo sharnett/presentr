@@ -1,0 +1,37 @@
+\documentclass[18pt,a4paper]{beamer}
+\usetheme{Warsaw}
+\usecolortheme{lily}
+
+\usepackage[latin1]{inputenc}
+\usepackage{graphicx}
+\usepackage{textpos}
+\beamertemplateballitem
+\beamertemplatenavigationsymbolsempty
+
+\title{%s}
+\author{%s}
+\institute{hackNY}
+
+\setbeamertemplate{footline}[page number]{}
+\setbeamertemplate{navigation symbols}{}
+
+\begin{document}
+
+\frame{\titlepage}
+\frame{\tableofcontents}
+
+\begin{frame}
+\frametitle{%s}
+\begin{columns}[c]
+\column{1.5in}
+\begin{itemize}
+	\item %s \pause
+	\item %s \pause
+	\item %s \pause
+\end{itemize}
+\column{1.5in}
+\includegraphics[width=0.8\textwidth,natwidth=610,natheight=642]{%s}
+\end{columns}
+\end{frame}
+
+\end{document}
