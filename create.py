@@ -1,19 +1,19 @@
 from random import randint
 import os
 
-topic = 'Tigers'
-name = 'Sean Kingston'
-photos = ['comics_Layer.jpg','comics_Layer.jpg','comics_Layer.jpg', 'comics_Layer.jpg','comics_Layer.jpg']
-captions = ['one caption', 'two caption', 'three caption', 'four caption', 'five caption']
-text = ['lots', 'of', 'friggin', 'text', 'so', 'much', 'text', 'loads of tigers', 'nine', 'i', 'love', 'tigers','who', 'does', 'not', 'love', 'sean', 'kingston']
-titles = ['TITLE 1', 'TITLE 2', 'TITLE 3', 'TITLE 4', 'TITLE 5']
+#topic = 'Tigers'
+#name = 'Sean Kingston'
+#photos = ['comics_Layer.jpg','comics_Layer.jpg','comics_Layer.jpg', 'comics_Layer.jpg','comics_Layer.jpg']
+#captions = ['one caption', 'two caption', 'three caption', 'four caption', 'five caption']
+#text = ['lots', 'of', 'friggin', 'text', 'so', 'much', 'text', 'loads of tigers', 'nine', 'i', 'love', 'tigers','who', 'does', 'not', 'love', 'sean', 'kingston']
+#titles = ['TITLE 1', 'TITLE 2', 'TITLE 3', 'TITLE 4', 'TITLE 5']
 
 def presentation(topic, name, titles, photos, captions, text):
 
 	themes = ['default', 'Antibes', 'Bergen', 'Berkeley', 'Berlin', 'Boadilla', 'CambridgeUS', 'Copenhagen', 'Darmstadt', 'Dresden', 'Frankfurt', 'Ilmenau', 'JuanLesPins', 'Luebeck', 'Madrid', 'Malmoe', 'Montpellier', 'Pittsburgh', 'Rochester', 'Szeged', 'Warsaw']
 	colors = ['default', 'beaver', 'beetle', 'crane', 'dove', 'rose', 'seahorse', 'whale', 'lily']
 
-	N = 5
+	N = 9
 	l = 0
 	newsection = 3
 
@@ -63,8 +63,9 @@ def presentation(topic, name, titles, photos, captions, text):
 
 	outfile.close()
 
-presentation(topic, name, titles, photos, captions, text)
+	os.system('pdflatex output.tex')
+	os.system('pdflatex output.tex')
+	os.system('evince output.pdf')
 
-os.system('pdflatex output.tex')
-os.system('pdflatex output.tex')
-os.system('evince output.pdf')
+if __name__ == '__main__':
+	presentation(topic, name, titles, photos, captions, text)

@@ -1,11 +1,10 @@
-\documentclass[20pt,a4paper]{beamer}
-\usetheme{Warsaw}
-\usecolortheme{lily}
+\documentclass[18pt,a4paper]{beamer}
+\usetheme{%s}
+\usecolortheme{%s}
 
 \usepackage[latin1]{inputenc}
 \usepackage{graphicx}
 \usepackage{textpos}
-\beamertemplateballitem
 \beamertemplatenavigationsymbolsempty
 
 \title[%s]{%s}
@@ -19,3 +18,7 @@
 \begin{document}
 
 \frame{\titlepage}
+
+\begin{frame}
+\tableofcontents
+\end{frame}
