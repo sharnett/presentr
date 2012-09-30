@@ -3,34 +3,35 @@ from json import load,dumps
 from splitpgraph import splitpgraph
 import re
 
-#def getFacts(subject):
-subject = 'tiger'
-title = []
+def getFacts(subject):
+	presentation = {}
 
-def getTitle(title, section, text):
-	regex1 = r"\=\=(.*?)\=\="
-	header = re.search(regex1, text)
-	title.append(header.group(1))
-	return title
+	def getTitle(section, text):
+		regex1 = r"\=\=(.*?)\=\="
+		header = re.search(regex1, text)
+		return header.group(1)
 
-for section in xrange(1,3):
+	def getText(section):
+		url = 'http://en.wikipedia.org/w/api.php?action=query&prop=revisions&rvprop=content&rvsection=%d&titles='+subject+'&format=json'
+		article = load(urlopen(url % section))
 
-	url = 'http://en.wikipedia.org/w/api.php?action=query&prop=revisions&rvprop=content&rvsection=%d&titles='+subject+'&format=json'
-	article = load(urlopen(url % section))
+		articleID = article['query']['pages'].keys()
+		articleText = article['query']['pages'][articleID[0]]['revisions'][0]['*']
 
-	articleID = article['query']['pages'].keys()
-	articleText = article['query']['pages'][articleID[0]]['revisions'][0]['*']
+		#print articleText
+		unwiki = re.compile(r'\[\[(?:[^|\]]*\|)?([^\]]+)\]\]')
+		newText = unwiki.sub(r'\1', articleText)
+		newText = re.sub('<.*>','',newText)
+		newText = re.sub('\{\{.*\}\}','',newText)
+		newText = re.sub('\n',' ',newText)
+		newText = re.sub('\'*','',newText)
 
-	#print articleText
-	unwiki = re.compile(r'\[\[(?:[^|\]]*\|)?([^\]]+)\]\]')
-	newText = unwiki.sub(r'\1', articleText)
-	newText = re.sub('<ref.*/ref>','',newText)
-	newText = re.sub('\{\{.*\}\}','',newText)
-	newText = re.sub('\n',' ',newText)
+		return newText
 
-	sentences = splitpgraph(newText)
+	for section in xrange(1,5):
+		sentences = splitpgraph(getText(section))
+		presentation[getTitle(section, getText(section))] = sentences[2:6]
+		
+	return presentation
 
-	print sentences[2]
-
-	print getTitle(title, section, newText)
-
+print getFacts('tiger')
