@@ -20,7 +20,11 @@ newText = re.sub('<ref.*/ref>','',newText)
 
 sentences = splitpgraph(newText)
 
+# regex title of section
+regex1 = r"\=\=(.*?)\=\="
+title = re.search(regex1, newText)
+
 print newText
 print articleID
-
+print title.group(1)
 
