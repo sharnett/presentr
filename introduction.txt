@@ -1,0 +1,21 @@
+\documentclass[20pt,a4paper]{beamer}
+\usetheme{Warsaw}
+\usecolortheme{lily}
+
+\usepackage[latin1]{inputenc}
+\usepackage{graphicx}
+\usepackage{textpos}
+\beamertemplateballitem
+\beamertemplatenavigationsymbolsempty
+
+\title[%s]{%s}
+\date{\today}
+\author{%s}
+\institute{%s}
+
+\setbeamertemplate{footline}[page number]{}
+\setbeamertemplate{navigation symbols}{}
+
+\begin{document}
+
+\frame{\titlepage}
