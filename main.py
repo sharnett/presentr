@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import mongokit
 import flask
 from datetime import datetime

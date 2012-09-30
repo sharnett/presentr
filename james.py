@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from urllib2 import urlopen
 from json import load, dumps
 import re
