@@ -5,6 +5,7 @@ import re
 
 #def getFacts(subject):
 subject = 'tiger'
+title = []
 
 def getTitle(title, section, text):
 	regex1 = r"\=\=(.*?)\=\="
@@ -12,8 +13,7 @@ def getTitle(title, section, text):
 	title.append(header.group(1))
 	return title
 
-for section in xrange(1,5):
-	title = []
+for section in xrange(1,3):
 
 	url = 'http://en.wikipedia.org/w/api.php?action=query&prop=revisions&rvprop=content&rvsection=%d&titles='+subject+'&format=json'
 	article = load(urlopen(url % section))
