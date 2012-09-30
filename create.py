@@ -17,6 +17,15 @@ def presentation(topic, name, titles, photos, captions, text):
 	l = 0
 	newsection = 3
 
+	for i in xrange(N):
+        	photos[i].encode('ascii','ignore')
+		captions[i].encode('ascii','ignore')
+	for i in xrange(N/3):
+		titles[i].encode('ascii','ignore')
+	for i in xrage(3*N):
+		text[i].encode('ascii','ignore')
+
+
 	outfile = open('output.tex','w')
 
 	intro = open('introduction.txt').read()
