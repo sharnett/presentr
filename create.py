@@ -13,7 +13,7 @@ def presentation(topic, name, titles, photos, captions, text):
 	themes = ['default', 'Antibes', 'Bergen', 'Berkeley', 'Berlin', 'Boadilla', 'CambridgeUS', 'Copenhagen', 'Darmstadt', 'Dresden', 'Frankfurt', 'Ilmenau', 'JuanLesPins', 'Luebeck', 'Madrid', 'Malmoe', 'Montpellier', 'Pittsburgh', 'Rochester', 'Szeged', 'Warsaw']
 	colors = ['default', 'beaver', 'beetle', 'crane', 'dove', 'rose', 'seahorse', 'whale', 'lily']
 
-	N = 5
+	N = 9
 	l = 0
 	newsection = 3
 
