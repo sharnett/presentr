@@ -5,10 +5,17 @@ import re
 
 #def getFacts(subject):
 subject = 'tiger'
+title = []
 
-for section in xrange(1,5):
+def getTitle(title, section, text):
+	regex1 = r"\=\=(.*?)\=\="
+	header = re.search(regex1, text)
+	title.append(header.group(1))
+	return title
 
-  url = 'http://en.wikipedia.org/w/api.php?action=query&prop=revisions&rvprop=content&rvsection=%d&titles='+subject+'&format=json'
+for section in xrange(1,3):
+
+	url = 'http://en.wikipedia.org/w/api.php?action=query&prop=revisions&rvprop=content&rvsection=%d&titles='+subject+'&format=json'
 	article = load(urlopen(url % section))
 
 	articleID = article['query']['pages'].keys()
@@ -24,4 +31,6 @@ for section in xrange(1,5):
 	sentences = splitpgraph(newText)
 
 	print sentences[2]
+
+	print getTitle(title, section, newText)
 
