@@ -20,12 +20,17 @@ def getFacts(subject, num_titles=3, num_sentences=27):
         articleID = article['query']['pages'].keys()
         articleText = article['query']['pages'][articleID[0]]['revisions'][0]['*']
         #print articleText
+
         unwiki = re.compile(r'\[\[(?:[^|\]]*\|)?([^\]]+)\]\]')
         newText = unwiki.sub(r'\1', articleText)
         newText = re.sub('<.*>','',newText)
         newText = re.sub('\{\{.*\}\}','',newText)
         newText = re.sub('\n',' ',newText)
         newText = re.sub('\'*','',newText)
+        newText = re.sub('|.* ','',newText)
+        newText = re.sub('\[\[.*\]\]','',newText)
+        newText = re.sub(' \* ','',newText)
+        
         return newText
 
     n = num_sentences/num_titles
@@ -43,4 +48,4 @@ if __name__ == '__main__':
 	for i, title in enumerate(titles):
 		print i, title
 	for i, t in enumerate(text):
-		print i, t
+ 		print i, t
