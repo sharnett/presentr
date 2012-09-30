@@ -38,8 +38,9 @@ def getFacts(subject, num_titles=3, num_sentences=27):
     return titles, text
 
 if __name__ == '__main__':
-    titles, text = getFacts('tiger')
-    for i, title in enumerate(titles):
-        print i, title
-    for i, t in enumerate(text):
-        print i, t
+	subject = raw_input('topic: ')
+	titles, text = getFacts(subject)
+	for i, title in enumerate(titles):
+		print i, title
+	for i, t in enumerate(text):
+		print i, t
