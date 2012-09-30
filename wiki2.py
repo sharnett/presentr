@@ -5,26 +5,23 @@ import re
 
 #def getFacts(subject):
 subject = 'tiger'
-section = 1
 
-url = 'http://en.wikipedia.org/w/api.php?action=query&prop=revisions&rvprop=content&rvsection=%d&titles='+subject+'&format=json'
-article = load(urlopen(url % section))
+for section in xrange(1,5):
 
-articleID = article['query']['pages'].keys()
-articleText = article['query']['pages'][articleID[0]]['revisions'][0]['*']
+  url = 'http://en.wikipedia.org/w/api.php?action=query&prop=revisions&rvprop=content&rvsection=%d&titles='+subject+'&format=json'
+	article = load(urlopen(url % section))
 
-#print articleText
-unwiki = re.compile(r'\[\[(?:[^|\]]*\|)?([^\]]+)\]\]')
-newText = unwiki.sub(r'\1', articleText)
-newText = re.sub('<ref.*/ref>','',newText)
+	articleID = article['query']['pages'].keys()
+	articleText = article['query']['pages'][articleID[0]]['revisions'][0]['*']
 
-sentences = splitpgraph(newText)
+	#print articleText
+	unwiki = re.compile(r'\[\[(?:[^|\]]*\|)?([^\]]+)\]\]')
+	newText = unwiki.sub(r'\1', articleText)
+	newText = re.sub('<ref.*/ref>','',newText)
+	newText = re.sub('\{\{.*\}\}','',newText)
+	newText = re.sub('\n',' ',newText)
 
-# regex title of section
-regex1 = r"\=\=(.*?)\=\="
-title = re.search(regex1, newText)
+	sentences = splitpgraph(newText)
 
-print newText
-print articleID
-print title.group(1)
+	print sentences[2]
 
