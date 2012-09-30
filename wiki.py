@@ -30,7 +30,9 @@ def getFacts(subject, num_titles=3, num_sentences=27):
         newText = re.sub('|.* ','',newText)
         newText = re.sub('\[\[.*\]\]','',newText)
         newText = re.sub(' \* ','',newText)
-        
+        newText = re.sub('File:.*|','',newText)
+        newText = re.sub('&nbsp;',' ',newText)
+
         return newText
 
     n = num_sentences/num_titles
