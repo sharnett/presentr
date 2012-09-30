@@ -1,0 +1,8 @@
+%s
+%s
+\begin{frame}
+\frametitle{%s}
+\begin{center}
+\includegraphics[width=3.0in,natwidth=610,natheight=642]{%s}
+\end{center}
+\end{frame}

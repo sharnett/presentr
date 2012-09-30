@@ -1,0 +1,11 @@
+\section{Summary}
+\begin{frame}
+\frametitle{SUMMARY}
+\begin{itemize}
+	\item %s \pause
+	\item %s \pause
+	\item %s \pause
+\end{itemize}
+\end{frame}
+
+\end{document}
