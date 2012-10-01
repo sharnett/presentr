@@ -62,7 +62,7 @@ def presentation(topic, name, titles, photos, captions, text):
                 outfile.write(x + '\n')
             newsection += 1
         l += 1
-    x = concl % (text[N+1],text[N+2],text[N+2])
+    x = concl % (text[3*N],text[3*N+1],text[3*N+2])
     outfile.write(x)
     outfile.close()
     os.system('pdflatex -output-directory tmp -interaction=batchmode tmp/output.tex')

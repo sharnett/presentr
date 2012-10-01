@@ -43,7 +43,7 @@ def latex_shite(subject='tiger', name='james'):
     tumblr_response = james(limit=20, tag=subject)['response']
     photos = get_photos(tumblr_response, limit=9)
     captions = get_captions(tumblr_response, limit=9)
-    titles, text = getFacts(subject, num_titles=3, num_sentences=27)
+    titles, text = getFacts(subject, num_titles=3, num_sentences=30)
     presentation(subject, name, titles, photos, captions, text)
 
 if __name__ == '__main__':
