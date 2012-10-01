@@ -9,9 +9,9 @@
 \end{center}
 \column{2.0in}
 \begin{itemize}
-        \item %s
-        \item %s
-        \item %s
+        \item {\tiny %s}
+        \item {\tiny %s}
+        \item {\tiny %s}
 \end{itemize}
 \end{columns}
 \end{frame}

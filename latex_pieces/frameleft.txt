@@ -4,9 +4,9 @@
 \begin{columns}[c]
 \column{2.0in}
 \begin{itemize}
-	\item %s
-	\item %s
-	\item %s
+	\item {\tiny %s}
+	\item {\tiny %s}
+	\item {\tiny %s}
 \end{itemize}
 \column{2.0in}
 \begin{center}
