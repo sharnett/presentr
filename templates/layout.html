@@ -1,7 +1,7 @@
 <!doctype html>
 <title>presentr</title>
 <head>
-<link REL="SHORTCUT ICON" HREF='static/grafx/favicon.ico'>
+    <link rel="icon" href="{{ url_for('static', filename='grafx/favicon.ico') }}">
 </head>
 <body background="{{ url_for('static', filename='grafx/bg.png') }}">
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">

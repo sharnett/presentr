@@ -19,12 +19,8 @@ def get_photos(response, limit=10):
     photos = clean(photos)[:limit]
     for i, photo in enumerate(photos):
         img = urlopen(photo).read()
-        open('tmp/%d'%i, 'wb').write(img)
+        open('tmp/%d.jpg'%i, 'wb').write(img)
     return ['tmp/%d'%i for i in xrange(limit)]
-
-#>>> url = 'http://25.media.tumblr.com/tumblr_mb0p6s18ih1qhqg01o1_500.jpg'
-#>>> img = urllib2.urlopen(url)
-#>>> open('img.jpg', 'wb').write(img.read())
 
 def get_captions(response, limit=10):
     captions = [r.get('caption', None) for r in response]

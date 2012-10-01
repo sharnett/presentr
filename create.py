@@ -14,7 +14,11 @@ def presentation(topic, name, titles, photos, captions, text):
     captions = [caption.encode('ascii','ignore') for caption in captions]
     titles = [title.encode('ascii','ignore') for title in titles]
     text = [t.encode('ascii','ignore') for t in text]
-    outfile = open('output.tex','w')
+    print 'photos:', len(photos)
+    print 'captions:', len(captions)
+    print 'titles:', len(titles)
+    print 'text:', len(text)
+    outfile = open('tmp/output.tex','w')
     intro = open('introduction.txt').read()
     lframe = open('frameleft.txt').read()
     rframe = open('frameright.txt').read()
@@ -23,7 +27,6 @@ def presentation(topic, name, titles, photos, captions, text):
     x = intro % (themes[randint(0,len(themes)-1)],
             colors[randint(0,len(colors)-1)], topic, topic, name, 'hackNY')
     outfile.write(x + '\n')
-    print len(photos), len(captions), len(titles), len(text)
     for k in xrange(0,3*N-1,3):
         p = randint(1,3)
         if newsection == 3:
@@ -56,14 +59,11 @@ def presentation(topic, name, titles, photos, captions, text):
                 outfile.write(x + '\n')
             newsection += 1
         l += 1
-        print('l',l)
-        print('newsection',newsection)
     x = concl % (text[N+1],text[N+2],text[N+2])
     outfile.write(x)
     outfile.close()
-    os.system('pdflatex output.tex')
-    os.system('pdflatex output.tex')
-    os.system('evince output.pdf')
+    os.system('pdflatex -output-directory tmp tmp/output.tex')
+    os.system('pdflatex -output-directory tmp tmp/output.tex')
 
 if __name__ == '__main__':
     #topic = 'Tigers'
