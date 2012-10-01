@@ -5,7 +5,7 @@ import flask
 from datetime import datetime
 from tumblr import james, get_photos, get_captions
 from wiki import getFacts
-from create import presentation
+from latex import presentation
 
 DEBUG = True
 MONGODB_HOST = 'localhost'
@@ -20,8 +20,6 @@ def main():
 
 @app.route('/')
 def show_entries():
-    #cur = g.db.execute('select title, text from entries order by id desc')
-    #entries = [dict(title=row[0], text=row[1]) for row in cur.fetchall()]
     collection = db_stuff().find()
     entries = [dict(project=p['project'], name=p['name']) for p in collection]
     return flask.render_template('template.html', entries=reversed(entries))
