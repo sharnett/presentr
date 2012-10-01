@@ -2,6 +2,7 @@
 
 from urllib2 import urlopen
 from json import load, dumps
+import re
 
 def james(limit = 1, tag = 'james'):
     key = 'XO7suEuSmJhFAZdhHJBjDYeaecyfVatJBKtOhFzG8AH0VTiArJ' # consumer key
@@ -19,8 +20,10 @@ def get_photos(response, limit=10):
     photos = clean(photos)[:limit]
     for i, photo in enumerate(photos):
         img = urlopen(photo).read()
-        open('tmp/%d.jpg'%i, 'wb').write(img)
-    return ['tmp/%d'%i for i in xrange(limit)]
+        print photo
+        extension = re.search('\.[^\.]*$',photo).group(0)
+        open('tmp/%d'%i + extension, 'wb').write(img)
+    return ['tmp/%d'%i + extension for i in xrange(limit)]
 
 def get_captions(response, limit=10):
     captions = [r.get('caption', None) for r in response]
