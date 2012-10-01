@@ -5,6 +5,10 @@ from json import load,dumps
 from splitpgraph import splitpgraph
 import re
 from random import sample
+from re import split
+
+def splitpgraph(pgraph):
+    return split('\. ',pgraph)
 
 def getFacts(subject, num_titles=3, num_sentences=27):
     
