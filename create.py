@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from random import randint
+import re
 import os
 
 def presentation(topic, name, titles, photos, captions, text):
@@ -12,6 +13,8 @@ def presentation(topic, name, titles, photos, captions, text):
     N, l, newsection, i_title = 9, 0, 3, 0
     photos = [photo.encode('ascii','ignore') for photo in photos]
     captions = [caption.encode('ascii','ignore') for caption in captions]
+    captions = [re.sub('<[^<]+?>', '', caption) for caption in captions]
+    captions = [re.sub('\W','',caption) for caption in captions]
     titles = [title.encode('ascii','ignore') for title in titles]
     text = [t.encode('ascii','ignore') for t in text]
     print 'photos:', len(photos)
