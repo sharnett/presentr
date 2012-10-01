@@ -4,10 +4,9 @@ from urllib2 import urlopen
 from json import load,dumps
 import re
 from random import sample
-from re import split
 
 def splitpgraph(pgraph):
-    return split('\. ',pgraph)
+    return re.split('\. ',pgraph)
 
 def getFacts(subject, num_titles=3, num_sentences=27):
     
