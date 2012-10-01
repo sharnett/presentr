@@ -35,6 +35,7 @@ def getFacts(subject, num_titles=3, num_sentences=27):
         newText = re.sub(' \* ','',newText)                       # gets rid of wiki's bullet points
         newText = re.sub('File:.*\|','',newText)                  # gets rid of anything inside and including File: |
         newText = re.sub('&nbsp;',' ',newText)                    # turns &nbsp; into spaces
+        newText = re.sub('\w*\|\w*','',newText)                   # gets rid of pipe between any number of alphanumeric chars
 
         return newText
 
