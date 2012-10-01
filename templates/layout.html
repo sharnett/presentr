@@ -11,8 +11,10 @@
     <div class=page>
         <div class=metanav>
         </div>
+		<center>
         {% for message in get_flashed_messages() %}
         <div class=flash>{{ message }}</div>
         {% endfor %}
         {% block body %}{% endblock %}
+		</center>
     </div>
