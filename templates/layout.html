@@ -1,15 +1,15 @@
 <!doctype html>
 <title>presentr</title>
-<body background="./grafx/bg.png">
-<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
-<center>
-<img src="./grafx/banner.png"
-</center>
-<div class=page>
-  <div class=metanav>
-  </div>
-  {% for message in get_flashed_messages() %}
-    <div class=flash>{{ message }}</div>
-  {% endfor %}
-  {% block body %}{% endblock %}
-</div>
+<body background="{{ url_for('static', filename='grafx/bg.png') }}">
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+    <center>
+        <img src="{{ url_for('static', filename='grafx/banner.png') }}">
+    </center>
+    <div class=page>
+        <div class=metanav>
+        </div>
+        {% for message in get_flashed_messages() %}
+        <div class=flash>{{ message }}</div>
+        {% endfor %}
+        {% block body %}{% endblock %}
+    </div>
