@@ -2,7 +2,6 @@
 
 from urllib2 import urlopen
 from json import load,dumps
-from splitpgraph import splitpgraph
 import re
 from random import sample
 from re import split
