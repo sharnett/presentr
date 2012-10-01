@@ -14,7 +14,7 @@ def presentation(topic, name, titles, photos, captions, text):
     photos = [photo.encode('ascii','ignore') for photo in photos]
     captions = [caption.encode('ascii','ignore') for caption in captions]
     captions = [re.sub('<[^<]+?>', '', caption) for caption in captions]
-    captions = [re.sub('\W','',caption) for caption in captions]
+    captions = [re.sub('[^a-zA-Z\d\s]','',caption) for caption in captions]
     titles = [title.encode('ascii','ignore') for title in titles]
     text = [t.encode('ascii','ignore') for t in text]
     print 'photos:', len(photos)
@@ -65,8 +65,8 @@ def presentation(topic, name, titles, photos, captions, text):
     x = concl % (text[N+1],text[N+2],text[N+2])
     outfile.write(x)
     outfile.close()
-    os.system('pdflatex -output-directory tmp tmp/output.tex')
-    os.system('pdflatex -output-directory tmp tmp/output.tex')
+    os.system('pdflatex -output-directory tmp -interaction=batchmode tmp/output.tex')
+    os.system('pdflatex -output-directory tmp -interaction=batchmode tmp/output.tex')
 
 if __name__ == '__main__':
     #topic = 'Tigers'
