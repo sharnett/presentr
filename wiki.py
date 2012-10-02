@@ -7,7 +7,7 @@ from random import sample
 from multiprocessing import Pool
 
 def splitpgraph(pgraph):
-    return re.split('\. ',pgraph)
+    return re.split('\w{2,}\. ',pgraph)
 
 def getFacts(subject, num_titles=3, num_sentences=27):
     subject = re.sub(' ','_',subject) # put input into wiki format i.e. 'albert einstein' --> 'Albert_Einstein'
