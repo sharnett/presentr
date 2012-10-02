@@ -1,12 +1,10 @@
-# -*- coding: utf-8 -*-
-
 from urllib2 import urlopen
 from json import load, dumps
 import re
 
 def james(limit = 1, tag = 'james'):
     key = 'XO7suEuSmJhFAZdhHJBjDYeaecyfVatJBKtOhFzG8AH0VTiArJ' # consumer key
-    url = 'http://api.tumblr.com/v2/tagged?tag=%s&limit=%d&api_key=%s'
+    url = 'http://api.tumblr.com/v2/tagged?tag=%s&limit=%d&filter=text&api_key=%s'
     return load(urlopen(url % (tag, limit, key)))
 
 def get_photos(response, limit=10):
@@ -16,7 +14,6 @@ def get_photos(response, limit=10):
         photo = response[i].get('photos', None)
         if photo:
             photos[i] = photo[0]['original_size']['url']
-    #return clean(photos)[:limit]
     photos = clean(photos)[:limit]
     for i, photo in enumerate(photos):
         img = urlopen(photo).read()
@@ -27,7 +24,9 @@ def get_photos(response, limit=10):
 
 def get_captions(response, limit=10):
     captions = [r.get('caption', None) for r in response]
-    return clean(captions)[:limit]
+    captions = clean(captions)[:limit]
+    while len(captions) < limit:
+        captions += ['james']
 
 def clean(a):
     ''' returns same list without empty elements '''
@@ -44,14 +43,3 @@ if __name__ == '__main__':
     print 'CAPTIONS'
     for i, caption in enumerate(captions):
         print i+1, caption
-    #make_html(photos, captions)
-
-def make_html(photos, captions):
-    f = open('index.html', 'w')
-    f.write('<html><body>\n')
-    for caption in captions:
-        f.write(caption + '\n')
-    for photo in photos:
-        f.write('<img src="{}" width=200 height=100>\n<br \>'.format(photo))
-    f.write('</body></html>')
-    f.close()
