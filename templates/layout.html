@@ -4,6 +4,7 @@
     <link rel="icon" href="{{ url_for('static', filename='grafx/favicon.ico') }}">
 </head>
 <body background="{{ url_for('static', filename='grafx/bg.png') }}">
+ <font face="Comic Sans MS">
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
     <center>
         <img src="{{ url_for('static', filename='grafx/banner.png') }}">
@@ -17,4 +18,5 @@
         {% endfor %}
         {% block body %}{% endblock %}
 		</center>
+        </font>
     </div>
