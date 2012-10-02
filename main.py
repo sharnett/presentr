@@ -23,7 +23,7 @@ def main():
 def show_entries():
     collection = db_stuff().find()
     entries = [dict(project=p['project'], name=p['name']) for p in collection]
-    return flask.render_template('template.html', entries=reversed(entries))
+    return flask.render_template('template.html', entries=entries[:-6:-1])
 
 @app.route('/add', methods=['POST'])
 def add_entry():

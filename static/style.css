@@ -48,3 +48,4 @@ h1,h2,h3 { font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetic
 
 /* Misc ------------------------------------------------------------ */
 
+hr { width: 50%; }
