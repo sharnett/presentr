@@ -29,14 +29,17 @@ def show_entries():
 def add_entry():
     collection = db_stuff()
     project, name = flask.request.form['project'], flask.request.form['name']
-    try:
-        latex_shite(subject=project, name=name)
-    except:
-        print sys.exc_info()
-        flask.flash('failed to create slides: %s' % str(sys.exc_info()))
-    else:
-        collection.insert({'project': project, 'name': name, 'date': datetime.utcnow()})
-        flask.flash('New entry was successfully posted')
+    latex_shite(subject=project, name=name)
+    collection.insert({'project': project, 'name': name, 'date': datetime.utcnow()})
+    flask.flash('New entry was successfully posted')
+   # try:
+   #     latex_shite(subject=project, name=name)
+   # except:
+   #     print sys.exc_info()
+   #     flask.flash('failed to create slides: %s' % str(sys.exc_info()))
+   # else:
+   #     collection.insert({'project': project, 'name': name, 'date': datetime.utcnow()})
+   #     flask.flash('New entry was successfully posted')
     return flask.redirect(flask.url_for('show_entries'))
 
 def db_stuff():

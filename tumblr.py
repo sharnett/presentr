@@ -9,24 +9,31 @@ def james(limit = 1, tag = 'james'):
 
 def get_photos(response, limit=10):
     n = len(response)
-    photos = [None]*n
+    urls, photos = [None]*n, [None]*limit
     for i in xrange(n):
-        photo = response[i].get('photos', None)
-        if photo:
-            photos[i] = photo[0]['original_size']['url']
-    photos = clean(photos)[:limit]
-    for i, photo in enumerate(photos):
-        img = urlopen(photo).read()
-        print photo
-        extension = re.search('\.[^\.]*$',photo).group(0)
-        open('tmp/%d'%i + extension, 'wb').write(img)
-    return ['tmp/%d'%i + extension for i in xrange(limit)]
+        url = response[i].get('photos', None)
+        if url:
+            urls[i] = url[0]['original_size']['url']
+    urls = clean(urls)
+    i = 0
+    for url in urls:
+        data = urlopen(url).read()
+        print url
+        extension = re.search('\.[^\.]*$', url).group(0)
+        if extension in {'.gif', '.GIF'}: 
+            continue
+        photos[i] = 'tmp/%d'%i + extension
+        open(photos[i], 'wb').write(data)
+        i += 1
+        if i >= limit: break
+    return photos
 
 def get_captions(response, limit=10):
     captions = [r.get('caption', None) for r in response]
     captions = clean(captions)[:limit]
     while len(captions) < limit:
         captions += ['james']
+    return captions
 
 def clean(a):
     ''' returns same list without empty elements '''
