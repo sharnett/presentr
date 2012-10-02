@@ -12,6 +12,21 @@ def splitpgraph(pgraph):
 def getFacts(subject, num_titles=3, num_sentences=27):
     subject = re.sub(' ','_',subject) # put input into wiki format i.e. 'albert einstein' --> 'Albert_Einstein'
 
+    translate = [
+    (r'\[\[(?:[^|\]]*\|)?([^\]]+)\]\]',r'\1'),
+    ('<.*>',''),
+    ('\{\{ *.* *\}\}',''),
+    ('\n',' '),
+    ('\'\'+',''),
+    ('\|.*\|',''),
+    ('\[\[.*\]\]',''),
+    ('\[\[.*\]\]',''),
+    (' \* ',''),
+    ('File:.*\|',''),
+    ('&nbsp;',' '),
+    ('\w*\|\w*','')
+    ]
+
     def getTitle(section, text):
         regex1 = r"\=\=(.*?)\=\="
         header = re.search(regex1, text)
@@ -26,19 +41,10 @@ def getFacts(subject, num_titles=3, num_sentences=27):
             article = load(urlopen(url % (section, subject.lower())))
         articleID = article['query']['pages'].keys()
         articleText = article['query']['pages'][articleID[0]]['revisions'][0]['*']
-        unwiki = re.compile(r'\[\[(?:[^|\]]*\|)?([^\]]+)\]\]')
-        newText = unwiki.sub(r'\1', articleText)                  # handles wiki links w/ pipes and without
-        newText = re.sub('<.*>','',newText)                       # gets rid of anything inside and including < >
-        newText = re.sub('\{\{ *.* *\}\}','',newText)             # gets rid of anything inside and including {{ }}
-        newText = re.sub('\n',' ',newText)                        # turns newline characters into spaces
-        newText = re.sub('\'\'+','',newText)                      # gets rid of more than one consecutive single quote
-        newText = re.sub('\|.*\|','',newText)                     # gets rid of anything inside and including | |
-        newText = re.sub('\[\[.*\]\]','',newText)                 # gets rid of anything inside and including [[ ]]
-        newText = re.sub(' \* ','',newText)                       # gets rid of wiki's bullet points
-        newText = re.sub('File:.*\|','',newText)                  # gets rid of anything inside and including File: |
-        newText = re.sub('&nbsp;',' ',newText)                    # turns &nbsp; into spaces
-        newText = re.sub('\w*\|\w*','',newText)                   # gets rid of pipe between any number of alphanumeric chars
-        return newText
+        for substitution in translate:
+            articleText = re.sub(substitution[0], substitution[1],articleText)
+
+        return articleText
 
     n = num_sentences/num_titles
     titles = [getTitle(i, getText(i)) for i in xrange(1, num_titles+1)]
