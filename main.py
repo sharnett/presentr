@@ -4,6 +4,7 @@ import mongokit
 import flask
 import sys
 from datetime import datetime
+from time import time
 from tumblr import james, get_photos, get_captions
 from wiki import getFacts
 from latex import presentation
@@ -49,11 +50,20 @@ def db_stuff():
     return collection
 
 def latex_shite(subject='tiger', name='james'):
+    t0 = time()
     tumblr_response = james(limit=20, tag=subject)['response']
     photos = get_photos(tumblr_response, limit=9)
     captions = get_captions(tumblr_response, limit=9)
+    for i, caption in enumerate(captions):
+        print i, caption
+    t1 = time()
     titles, text = getFacts(subject, num_titles=3, num_sentences=30)
+    t2 = time()
     presentation(subject, name, titles, photos, captions, text)
+    t3 = time()
+    print 'tumblr:', t1-t0
+    print 'wiki:', t2-t1
+    print 'latex:', t3-t2
 
 if __name__ == '__main__':
     main()

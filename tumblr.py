@@ -34,6 +34,7 @@ def get_captions(response, limit=10):
     captions = clean(captions)[:limit]
     while len(captions) < limit:
         captions += ['james']
+    captions = [re.sub(r'\s+', ' ', c)[:80] for c in captions]
     return captions
 
 def clean(a):
