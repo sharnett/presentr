@@ -3,6 +3,7 @@ from json import load, dumps
 import re
 
 def james(limit = 1, tag = 'james'):
+    tag = tag.replace(' ', '_')
     key = 'XO7suEuSmJhFAZdhHJBjDYeaecyfVatJBKtOhFzG8AH0VTiArJ' # consumer key
     url = 'http://api.tumblr.com/v2/tagged?tag=%s&limit=%d&filter=text&api_key=%s'
     return load(urlopen(url % (tag, limit, key)))
@@ -40,7 +41,8 @@ def clean(a):
     return [x for x in a if x]
 
 if __name__ == '__main__':
-    response = james(limit=20, tag='tiger')['response']
+    subject = raw_input('topic: ')
+    response = james(limit=20, tag=subject)['response']
     #print dumps(response[0], sort_keys=True, indent=4)
     print 'PHOTOS'
     photos = get_photos(response)
