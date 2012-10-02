@@ -24,7 +24,8 @@ def getFacts(subject, num_titles=3, num_sentences=27):
     (' \* ',''),
     ('File:.*\|',''),
     ('&nbsp;',' '),
-    ('\w*\|\w*','')
+    ('\w*\|\w*',''),
+    ('\w*\}\}','')
     ]
 
     def getTitle(section, text):
@@ -60,7 +61,9 @@ def getFacts(subject, num_titles=3, num_sentences=27):
         text += ['james']
     text = sample(text, num_sentences)
     for i in xrange(len(text)):
-        text[i] = re.sub('\=*.*?\=*','',text[i])                  # now that titles have been extracted, get rid of remaining subtitles
+        text[i] = re.sub('\=*.*?\=*','',text[i]) # now that titles have been extracted, get rid of remaining subtitles
+    for i in xrange(len(titles)):
+        titles[i] = re.sub('=','',titles[i]) # get rid of stray =
     return titles, text
 
 if __name__ == '__main__':
