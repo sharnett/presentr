@@ -1,0 +1,7 @@
+\begin{frame}
+\begin{definition}
+{%s}\\
+{\tiny %s}
+\end{definition}
+\end{frame}
+
