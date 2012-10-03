@@ -1,6 +1,12 @@
+import re
 from urllib2 import urlopen
 from json import load, dumps
-import re
+from multiprocessing import Pool
+
+def get_data(url):
+    data = urlopen(url).read()
+    extension = re.search('\.[^\.]*$', url).group(0)
+    return extension, data
 
 def james(limit = 1, tag = 'james'):
     tag = tag.replace(' ', '_')
@@ -9,24 +15,34 @@ def james(limit = 1, tag = 'james'):
     return load(urlopen(url % (tag, limit, key)))
 
 def get_photos(response, limit=10):
+    max_height = 400
     n = len(response)
     urls, photos = [None]*n, [None]*limit
-    for i in xrange(n):
-        url = response[i].get('photos', None)
-        if url:
-            urls[i] = url[0]['original_size']['url']
-    urls = clean(urls)
-    i = 0
-    for url in urls:
-        data = urlopen(url).read()
-        print url
-        extension = re.search('\.[^\.]*$', url).group(0)
-        if extension in {'.gif', '.GIF'}: 
-            continue
-        photos[i] = 'tmp/%d'%i + extension
-        open(photos[i], 'wb').write(data)
-        i += 1
-        if i >= limit: break
+    for i, r in enumerate(response):
+        if 'photos' not in r: continue
+        z = r['photos'][0]
+        h = z['original_size']['height']
+        url = z['original_size']['url']
+        if url[-3:] in {'gif', 'GIF'}: continue
+        j, j_max = 0, len(z['alt_sizes'])
+        while h > max_height:
+            h = z['alt_sizes'][j]['height']
+            url = z['alt_sizes'][j]['url']
+            j += 1
+            if j >= j_max: break
+        urls[i] = url
+    urls = clean(urls)[:limit]
+    pool = Pool(processes=limit)
+    pairs = pool.map_async(get_data, urls).get(timeout=5)
+    for i, p in enumerate(pairs):
+        extension, data = p
+        photos[i] = 'tmp/%d'%i + extension 
+        f = open(photos[i], 'wb').write(data)
+    #for i, url in enumerate(urls):
+    #    data = urlopen(url).read()
+    #    extension = re.search('\.[^\.]*$', url).group(0)
+    #    photos[i] = 'tmp/%d'%i + extension
+    #    open(photos[i], 'wb').write(data)
     return photos
 
 def get_captions(response, limit=10):
@@ -44,7 +60,7 @@ def clean(a):
 if __name__ == '__main__':
     subject = raw_input('topic: ')
     response = james(limit=20, tag=subject)['response']
-    #print dumps(response[0], sort_keys=True, indent=4)
+    #print dumps(response[:5], sort_keys=True, indent=4)
     print 'PHOTOS'
     photos = get_photos(response)
     captions = get_captions(response)
