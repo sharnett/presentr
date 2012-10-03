@@ -67,6 +67,7 @@ def presentation(topic, name, titles, photos, captions, text):
     outfile.close()
     os.system('pdflatex -output-directory tmp -interaction=batchmode tmp/output.tex')
     os.system('pdflatex -output-directory tmp -interaction=batchmode tmp/output.tex')
+    os.system("cd tmp/ && ls -1 . | grep '[^(output.pdf)]' | xargs rm -v && rm output.out")
 
 if __name__ == '__main__':
     #topic = 'Tigers'
