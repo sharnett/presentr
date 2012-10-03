@@ -3,7 +3,7 @@ from random import randint
 import re
 import os
 
-def presentation(topic, name, titles, photos, captions, text):
+def presentation(topic, name, titles, photos, captions, text, definitions):
     themes = ['default', 'Antibes', 'Bergen', 'Berkeley', 'Berlin', 'Boadilla',
             'CambridgeUS', 'Copenhagen', 'Darmstadt', 'Dresden', 'Frankfurt',
             'Ilmenau', 'JuanLesPins', 'Luebeck', 'Madrid', 'Malmoe',
@@ -27,8 +27,11 @@ def presentation(topic, name, titles, photos, captions, text):
     rframe = open('latex_pieces/frameright.txt').read()
     mframe = open('latex_pieces/framemiddle.txt').read()
     concl = open('latex_pieces/conclusion.txt').read()
+    defn = open('latex_pieces/definition.txt').read()
     x = intro % (themes[randint(0,len(themes)-1)],
             colors[randint(0,len(colors)-1)], topic, topic, name, 'hackNY')
+    outfile.write(x + '\n')
+    x = defn %  (topic, definitions)
     outfile.write(x + '\n')
     for k in xrange(0,3*N-1,3):
         p = randint(1,3)
@@ -76,4 +79,4 @@ if __name__ == '__main__':
     #captions = ['one caption', 'two caption', 'three caption', 'four caption', 'five caption']
     #text = ['lots', 'of', 'friggin', 'text', 'so', 'much', 'text', 'loads of tigers', 'nine', 'i', 'love', 'tigers','who', 'does', 'not', 'love', 'sean', 'kingston']
     #titles = ['TITLE 1', 'TITLE 2', 'TITLE 3', 'TITLE 4', 'TITLE 5']
-    presentation(topic, name, titles, photos, captions, text)
+    presentation(topic, name, titles, photos, captions, text, definitions)

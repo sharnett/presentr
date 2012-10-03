@@ -8,6 +8,7 @@ from time import time
 from tumblr import james, get_photos, get_captions
 from wiki import getFacts
 from latex import presentation
+from udict import get_definitions
 
 DEBUG = True
 MONGODB_HOST = 'localhost'
@@ -59,11 +60,14 @@ def latex_shite(subject='tiger', name='james'):
     t1 = time()
     titles, text = getFacts(subject, num_titles=3, num_sentences=30)
     t2 = time()
-    presentation(subject, name, titles, photos, captions, text)
+    definitions = get_definitions(subject)
     t3 = time()
+    presentation(subject, name, titles, photos, captions, text, definitions)
+    t4 = time()
     print 'tumblr:', t1-t0
     print 'wiki:', t2-t1
-    print 'latex:', t3-t2
+    print 'urbandictionary:', t3-t2
+    print 'latex:', t4-t3
 
 if __name__ == '__main__':
     main()
