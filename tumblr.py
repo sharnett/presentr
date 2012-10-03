@@ -34,6 +34,7 @@ def get_photos(response, limit=10):
     urls = clean(urls)[:limit]
     pool = Pool(processes=limit)
     pairs = pool.map_async(get_data, urls).get(timeout=5)
+    pool.close()
     for i, p in enumerate(pairs):
         extension, data = p
         photos[i] = 'tmp/%d'%i + extension 
