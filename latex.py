@@ -67,7 +67,12 @@ def presentation(topic, name, titles, photos, captions, text):
     outfile.close()
     os.system('pdflatex -output-directory tmp -interaction=batchmode tmp/output.tex')
     os.system('pdflatex -output-directory tmp -interaction=batchmode tmp/output.tex')
-    os.system("cd tmp/ && ls -1 . | grep '[^(output.pdf)]' | xargs rm -v && rm output.out")
+    fatal = open('tmp/output.log').read().find('Fatal')
+    if fatal == -1:
+        for x in os.listdir('tmp/'):
+            if x not in {'.nothing', 'output.pdf'}: os.remove('tmp/' + x) 
+    else:
+        print 'latex error'
 
 if __name__ == '__main__':
     #topic = 'Tigers'
