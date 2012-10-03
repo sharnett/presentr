@@ -3,6 +3,7 @@ from BeautifulSoup import BeautifulSoup
 import re
 
 def get_definitions(tag):
+	tag = re.sub(' ','+', tag) # put input into urban form: 'new york' --> 'new+york'
 	url = 'http://www.urbandictionary.com/define.php?term=%s'
 	data = urlopen(url % (tag)).read()
 	data = BeautifulSoup(data)
