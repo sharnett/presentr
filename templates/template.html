@@ -9,7 +9,8 @@
 <h3> Most recent pReSeNtRations </h3>
 <ul class=entries>
     {% for entry in entries %}
-    <li>{{ entry.name }}: {{ entry.project|safe }}
+    <li>{{ entry.name }}: <a href="{{ url_for('static', filename=entry.url) }}">
+        {{ entry.project|safe }}</a>
     {% else %}
     <li><em>Unbelievable.  No entries here so far</em>
     {% endfor %}

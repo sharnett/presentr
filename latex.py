@@ -1,7 +1,7 @@
-# -*- coding: utf-8 -*-
-from random import randint
 import re
 import os
+from random import randint
+#from subprocess import call
 
 def presentation(topic, name, titles, photos, captions, text, definitions):
     themes = ['default', 'Antibes', 'Bergen', 'Berkeley', 'Berlin', 'Boadilla',
@@ -68,20 +68,29 @@ def presentation(topic, name, titles, photos, captions, text, definitions):
     x = concl % (text[3*N],text[3*N+1],text[3*N+2])
     outfile.write(x)
     outfile.close()
-    os.system('pdflatex -output-directory tmp -interaction=batchmode tmp/output.tex')
-    os.system('pdflatex -output-directory tmp -interaction=batchmode tmp/output.tex')
-    fatal = open('tmp/output.log').read().find('Fatal')
+    latex_cmd = 'pdflatex -output-directory tmp -interaction=batchmode tmp/output.tex'
+    os.system(latex_cmd)
+    os.system(latex_cmd)
+    #call(latex_cmd)
+    fatal = open('tmp/output.log').read().find('Fatal') # check for latex error
     if fatal == -1:
         for x in os.listdir('tmp/'):
             if x not in {'.nothing', 'output.pdf'}: os.remove('tmp/' + x) 
-    else:
-        print 'latex error'
+        os.rename('tmp/output.pdf', 'static/output.pdf')
+    else: # don't delete temp files if error
+        raise Exception('latex error')
+    return 'output.pdf'
 
 if __name__ == '__main__':
-    #topic = 'Tigers'
-    #name = 'Sean Kingston'
-    #photos = ['comics_Layer.jpg','comics_Layer.jpg','comics_Layer.jpg', 'comics_Layer.jpg','comics_Layer.jpg']
-    #captions = ['one caption', 'two caption', 'three caption', 'four caption', 'five caption']
-    #text = ['lots', 'of', 'friggin', 'text', 'so', 'much', 'text', 'loads of tigers', 'nine', 'i', 'love', 'tigers','who', 'does', 'not', 'love', 'sean', 'kingston']
-    #titles = ['TITLE 1', 'TITLE 2', 'TITLE 3', 'TITLE 4', 'TITLE 5']
+    topic = 'Tigers'
+    name = 'Sean Kingston'
+    photos = ['comics_Layer.jpg','comics_Layer.jpg','comics_Layer.jpg',
+            'comics_Layer.jpg','comics_Layer.jpg']
+    captions = ['one caption', 'two caption', 'three caption', 'four caption',
+            'five caption']
+    text = ['lots', 'of', 'friggin', 'text', 'so', 'much', 'text', 'loads of'
+            'tigers', 'nine', 'i', 'love', 'tigers','who', 'does', 'not',
+            'love', 'sean', 'kingston']
+    titles = ['TITLE 1', 'TITLE 2', 'TITLE 3', 'TITLE 4', 'TITLE 5']
+    definitions = ['james is lame', 'oh so lame']
     presentation(topic, name, titles, photos, captions, text, definitions)

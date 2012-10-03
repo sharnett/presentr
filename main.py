@@ -24,15 +24,15 @@ def main():
 @app.route('/')
 def show_entries():
     collection = db_stuff().find()
-    entries = [dict(project=p['project'], name=p['name']) for p in collection]
+    entries = [{'project': p['project'], 'name': p['name'], 'url': p['url']} for p in collection]
     return flask.render_template('template.html', entries=entries[:-6:-1])
 
 @app.route('/add', methods=['POST'])
 def add_entry():
     collection = db_stuff()
     project, name = flask.request.form['project'], flask.request.form['name']
-    latex_shite(subject=project, name=name)
-    collection.insert({'project': project, 'name': name, 'date': datetime.utcnow()})
+    url = latex_shite(subject=project, name=name)
+    collection.insert({'project': project, 'name': name, 'url': url})
     flask.flash('New entry was successfully posted')
    # try:
    #     latex_shite(subject=project, name=name)
@@ -62,12 +62,13 @@ def latex_shite(subject='tiger', name='james'):
     t2 = time()
     definitions = get_definitions(subject)
     t3 = time()
-    presentation(subject, name, titles, photos, captions, text, definitions)
+    url = presentation(subject, name, titles, photos, captions, text, definitions)
     t4 = time()
     print 'tumblr:', t1-t0
     print 'wiki:', t2-t1
     print 'urbandictionary:', t3-t2
     print 'latex:', t4-t3
+    return url
 
 if __name__ == '__main__':
     main()
