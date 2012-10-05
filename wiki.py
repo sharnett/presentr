@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from urllib2 import urlopen
 from json import load,dumps
 import re
@@ -25,7 +23,8 @@ def getFacts(subject, num_titles=3, num_sentences=27):
     ('File:.*\|',''),
     ('&nbsp;',' '),
     ('\w*\|\w*',''),
-    ('\w*\}\}','')
+    ('\w*\}\}',''),
+    ('%',''),
     ]
 
     def getTitle(section, text):

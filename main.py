@@ -54,7 +54,7 @@ def latex_shite(subject='tiger', name='james'):
     t0 = time()
     tumblr_response = james(limit=20, tag=subject)['response']
     photos = get_photos(tumblr_response, limit=9)
-    captions = get_captions(tumblr_response, limit=9)
+    captions = get_captions(tumblr_response, subject, limit=9)
     for i, caption in enumerate(captions):
         print i, caption
     t1 = time()
