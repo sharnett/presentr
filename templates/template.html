@@ -1,8 +1,11 @@
 {% extends "layout.html" %}
 {% block body %}
 <form action="{{ url_for('add_entry') }}" method=post class=add-entry>
-    Subject: <input type=text size=30 name=project> <br/ >
-    Your name: <input type=text size=30 name=name>  <br/ >
+    <table>
+        <tr><td> Subject: </td><td> <input type=text size=30 name=project> </td></tr>
+        <tr><td> Your name: </td><td> <input type=text size=30 name=name>  </td></tr>
+    </table>
+    <center>
     <input type='image' src="{{ url_for('static', filename='grafx/gobutton.png') }}" height='45' width='120' alt='generate slideshow'>
 </form>
 <hr>
@@ -15,4 +18,5 @@
     <li><em>Unbelievable.  No entries here so far</em>
     {% endfor %}
 </ul>
+</center>
 {% endblock %}
