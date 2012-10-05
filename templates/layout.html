@@ -10,8 +10,6 @@
         <img src="{{ url_for('static', filename='grafx/banner.png') }}">
     </center>
     <div class=page>
-        <div class=metanav>
-        </div>
         {% for message in get_flashed_messages() %}
         <div class=flash>{{ message }}</div>
         {% endfor %}
