@@ -1,7 +1,6 @@
 \begin{frame}
 \begin{definition}
-{%s}\\
-{\tiny %s}
+%s
 \end{definition}
 \end{frame}
 
