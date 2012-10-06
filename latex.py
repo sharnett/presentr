@@ -31,7 +31,7 @@ def presentation(topic, name, titles, photos, captions, text, definitions):
     x = intro % (themes[randint(0,len(themes)-1)],
             colors[randint(0,len(colors)-1)], topic, topic, name, 'hackNY')
     outfile.write(x + '\n')
-    x = defn %  (definitions)
+    x = defn %  (definitions[0],definitions[1],definitions[2])
     outfile.write(x + '\n')
     for k in xrange(0,3*N-1,3):
         p = randint(1,3)

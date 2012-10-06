@@ -7,28 +7,34 @@ def get_definitions(tag):
 	url = 'http://www.urbandictionary.com/define.php?term=%s'
 	data = urlopen(url % (tag)).read()
 	data = BeautifulSoup(data)
-	results1 = data.findAll('div', attrs={'class' : 'definition'})[0].text
-	results2 = data.findAll('div', attrs={'class' : 'definition'})[1].text
-	results3 = data.findAll('div', attrs={'class' : 'definition'})[2].text
-#	results = re.sub('str', '', results)
-	
-	if results1.find('&quot',0,200)<0:
-		results = results1
-#		print('one')
-	elif results2.find('&quot',0,200)<0:
-		results =results2
-#		print('two')
-	else:
-		results = results3
-#		print('three')
-#	print(results)
 
-	if results.find('.',100)>0:
-		results = results[0:results.find('.',100)+1]
-	else:
-		results = results[0:100]
-#	print results
-	return results
+	nodefinition, k, i = 0, 0, 0
+	maxdefn = len(data.findAll('div', attrs={'class' : 'definition'}))
+	defns = []
+
+	while nodefinition < 3 and k < maxdefn:
+		defn = data.findAll('div', attrs={'class' : 'definition'})[k].text
+		defn = re.sub('&quot;', '\"', defn)	# remove awkward urban dict format
+		defn = re.sub('\d', '', defn)		# remove numbers
+		defn = re.sub('\A. ', '', defn)		# remove bad formatting at beginning of string	
+	
+		if defn.find('.',20)>0:
+			defn = defn[0:defn.find('.',20)+1]
+			defns += [defn.capitalize()]
+			nodefinition += 1
+			i += 1
+		k += 1
+
+	if len(defns) == 2:
+		defns += ['This is everything mankind knows about %s.' % tag]
+	elif len(defns) == 1:
+		defns += ['Little more is known of this %s you speak of.' % tag]
+		defns += ['Hello World.']
+	elif len(defns) == 0:
+		defns += ['Well done.']
+		defns += ['Urban Dictionary has not even heard of this %s you speak of.' % tag]
+		defns += ['Hello World.']
+	return defns
 
 if __name__ == '__main__':
 	tag = raw_input('topic: ')	
