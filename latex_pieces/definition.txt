@@ -1,8 +1,8 @@
 \begin{frame}
-\begin{definition}[Overview]
-1.%s\\
-2.%s\\
-3.%s\\
+\begin{definition}
+1. %s\\
+2. %s\\
+3. %s\\
 \end{definition}
 \end{frame}
 

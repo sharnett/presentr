@@ -1,6 +1,7 @@
 %s
 %s
 \begin{frame}
+\frametitle{%s}
 \begin{columns}[c]
 \column{2.0in}
 \begin{itemize}

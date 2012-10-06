@@ -38,7 +38,7 @@ def presentation(topic, name, titles, photos, captions, text, definitions):
         if newsection == 3:
             if p == 1:
                 x = lframe % ('\section{' + titles[i_title] + '}', '\subsection{' + 
-                        captions[l] + '}', text[k], text[k+1], text[k+2], photos[l])
+                        captions[l] + '}', captions[l], text[k], text[k+1], text[k+2], photos[l])
                 outfile.write(x + '\n')
             elif p == 2:
                 x = rframe % ('\section{' + titles[i_title] + '}', '\subsection{' + 
@@ -52,7 +52,7 @@ def presentation(topic, name, titles, photos, captions, text, definitions):
             i_title += 1
         else:
             if p == 1:
-                x = lframe % ('', '\subsection{' + captions[l] + '}', text[k], 
+                x = lframe % ('', '\subsection{' + captions[l] + '}', captions[l], text[k], 
                         text[k+1], text[k+2], photos[l])
                 outfile.write(x + '\n')
             elif p == 2:
@@ -74,8 +74,8 @@ def presentation(topic, name, titles, photos, captions, text, definitions):
     #call(latex_cmd)
     fatal = open('tmp/output.log').read().find('Fatal') # check for latex error
     if fatal == -1:
-        for x in os.listdir('tmp/'):
-            if x not in {'.nothing', 'output.pdf'}: os.remove('tmp/' + x) 
+        #for x in os.listdir('tmp/'):
+            #if x not in {'.nothing', 'output.pdf'}: os.remove('tmp/' + x) 
         os.rename('tmp/output.pdf', 'static/output.pdf')
     else: # don't delete temp files if error
         raise Exception('latex error')
