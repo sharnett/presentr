@@ -3,7 +3,6 @@
 import mongokit
 import flask
 import sys
-from datetime import datetime
 from time import time
 from tumblr import james, get_photos, get_captions
 from wiki import getFacts
@@ -31,17 +30,20 @@ def show_entries():
 def add_entry():
     collection = db_stuff()
     project, name = flask.request.form['project'], flask.request.form['name']
-    url = latex_shite(subject=project, name=name)
-    collection.insert({'project': project, 'name': name, 'url': url})
-    flask.flash('New entry was successfully posted')
-   # try:
-   #     latex_shite(subject=project, name=name)
+    try:
+        url = latex_shite(subject=project, name=name)
+    except KeyError as e:
+        if e.message == 'query':
+            flask.flash('Presentr encountered an internal error. Try again,'
+                        ' maybe with a different subject.')
+        else:
+            raise e
    # except:
    #     print sys.exc_info()
    #     flask.flash('failed to create slides: %s' % str(sys.exc_info()))
-   # else:
-   #     collection.insert({'project': project, 'name': name, 'date': datetime.utcnow()})
-   #     flask.flash('New entry was successfully posted')
+    else:
+        collection.insert({'project': project, 'name': name, 'url': url})
+        flask.flash('Success! Download your pReSeNtRation below.')
     return flask.redirect(flask.url_for('show_entries'))
 
 def db_stuff():

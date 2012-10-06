@@ -3,3 +3,4 @@
 .DS_Store
 tmp/*
 output.tex
+static/*.pdf
