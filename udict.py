@@ -13,18 +13,18 @@ def get_definitions(tag):
 	defns = []
 
 	while nodefinition < 3 and k < maxdefn:
-		defn = data.findAll('div', attrs={'class' : 'definition'})[k].text
-		defn = re.sub('&quot;', '\"', defn)	# remove awkward urban dict format
-		defn = re.sub('\d', '', defn)		# remove numbers
-		defn = re.sub('\A. ', '', defn)		# remove bad formatting at beginning of string	
-	
-		if defn.find('.',20)>0:
-			defn = defn[0:defn.find('.',20)+1]
+		defn = data.findAll('div', attrs={'class' : 'definition'})[k].text	
+		if defn.find('.',5)>0:
+		        defn = re.sub('&quot;', '\"', defn)     # remove awkward urban dict format
+                        defn = re.sub('\d', '', defn)           # remove numbers
+                	defn = re.sub('\A. ', '', defn)         # remove bad formatting at beginning
+			defn = defn[0:defn.find('.',5)+1]
 			defns += [defn.capitalize()]
 			nodefinition += 1
 			i += 1
 		k += 1
 
+	# padding:
 	if len(defns) == 2:
 		defns += ['This is everything mankind knows about %s.' % tag]
 	elif len(defns) == 1:
