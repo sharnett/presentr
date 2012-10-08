@@ -72,12 +72,23 @@ def presentation(topic, name, titles, photos, captions, text, definitions):
     os.system(latex_cmd)
     os.system(latex_cmd)
     fatal = open('tmp/output.log').read().find('Fatal') # check for latex error
-    if fatal == -1:
+    if fatal == -1: # no error
         for x in os.listdir('tmp/'):
             if x not in {'.nothing', 'output.pdf'}: os.remove('tmp/' + x) 
         now = datetime.utcnow().strftime('%y%m%d%H%M%S')
         outfilename = '-'.join([name, topic, now]) + '.pdf'
         os.rename('tmp/output.pdf', 'static/' + outfilename)
+        # if too many pdfs, get rid of oldest one
+        pdfs = [pdf for pdf in os.listdir('static') if pdf[-3:] == 'pdf']
+        oldest_pdf, oldest_age = '', 1e20
+        if len(pdfs) > 5:
+            for pdf in pdfs:
+                if pdf[-3:] != 'pdf': continue
+                age = os.stat('static/' + pdf).st_ctime 
+                if age < oldest_age: 
+                    oldest_pdf, oldest_age = pdf, age
+            print 'removing', oldest_pdf
+            os.remove('static/' + oldest_pdf)
     else: # don't delete temp files if error
         raise Exception('latex error')
     return outfilename
