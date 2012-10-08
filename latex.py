@@ -1,7 +1,7 @@
 import re
 import os
 from random import randint
-#from subprocess import call
+from datetime import datetime
 
 def presentation(topic, name, titles, photos, captions, text, definitions):
     themes = ['default', 'Antibes', 'Bergen', 'Berkeley', 'Berlin', 'Boadilla',
@@ -71,15 +71,16 @@ def presentation(topic, name, titles, photos, captions, text, definitions):
     latex_cmd = 'pdflatex -output-directory tmp -interaction=batchmode tmp/output.tex'
     os.system(latex_cmd)
     os.system(latex_cmd)
-    #call(latex_cmd)
     fatal = open('tmp/output.log').read().find('Fatal') # check for latex error
     if fatal == -1:
-        #for x in os.listdir('tmp/'):
-            #if x not in {'.nothing', 'output.pdf'}: os.remove('tmp/' + x) 
-        os.rename('tmp/output.pdf', 'static/output.pdf')
+        for x in os.listdir('tmp/'):
+            if x not in {'.nothing', 'output.pdf'}: os.remove('tmp/' + x) 
+        now = datetime.utcnow().strftime('%y%m%d%H%M%S')
+        outfilename = '-'.join([name, topic, now]) + '.pdf'
+        os.rename('tmp/output.pdf', 'static/' + outfilename)
     else: # don't delete temp files if error
         raise Exception('latex error')
-    return 'output.pdf'
+    return outfilename
 
 if __name__ == '__main__':
     topic = 'Tigers'
