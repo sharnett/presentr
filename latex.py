@@ -83,7 +83,6 @@ def presentation(topic, name, titles, photos, captions, text, definitions):
         oldest_pdf, oldest_age = '', 1e20
         if len(pdfs) > 5:
             for pdf in pdfs:
-                if pdf[-3:] != 'pdf': continue
                 age = os.stat('static/' + pdf).st_ctime 
                 if age < oldest_age: 
                     oldest_pdf, oldest_age = pdf, age
