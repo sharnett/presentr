@@ -1,6 +1,4 @@
-# -*- coding: utf-8 -*-
-
-import mongokit
+import sqlite3
 import flask
 import sys
 from time import time
@@ -8,6 +6,7 @@ from tumblr import james, get_photos, get_captions
 from wiki import getFacts
 from latex import presentation
 from udict import get_definitions
+from flask import g
 
 DEBUG = True
 MONGODB_HOST = 'localhost'
@@ -22,16 +21,17 @@ def main():
 
 @app.route('/')
 def show_entries():
-    collection = db_stuff().find()
-    entries = [{'project': p['project'], 'name': p['name'], 'url': p['url']} for p in collection]
+    g.db = connect_db()
+    collection = query_db('select * from james')
+    g.db.close()
+    entries = [{'subject': p['subject'], 'name': p['name'], 'url': p['url']} for p in collection]
     return flask.render_template('template.html', entries=entries[:-6:-1])
 
 @app.route('/add', methods=['POST'])
 def add_entry():
-    collection = db_stuff()
-    project, name = flask.request.form['project'], flask.request.form['name']
+    subject, name = flask.request.form['subject'], flask.request.form['name']
     try:
-        url = latex_shite(subject=project, name=name)
+        url = latex_shite(subject=subject, name=name)
     except KeyError as e:
         if e.message == 'query':
             flask.flash('Presentr encountered an internal error. Try again,'
@@ -42,15 +42,22 @@ def add_entry():
    #     print sys.exc_info()
    #     flask.flash('failed to create slides: %s' % str(sys.exc_info()))
     else:
-        collection.insert({'project': project, 'name': name, 'url': url})
+        g.db = connect_db()
+        args = [subject, name, url]
+        collection = query_db('insert into james values (?,?,?)', args)
+        g.db.commit()
         flask.flash('Success! Download your pReSeNtRation below.')
+        g.db.close()
     return flask.redirect(flask.url_for('show_entries'))
 
-def db_stuff():
-    connection = mongokit.Connection(app.config['MONGODB_HOST'], app.config['MONGODB_PORT'])
-    db = connection['james']
-    collection = db.projects
-    return collection
+def query_db(query, args=(), one=False):
+    cur = g.db.execute(query, args)
+    rv = [dict((cur.description[idx][0], value)
+        for idx, value in enumerate(row)) for row in cur.fetchall()]
+    return (rv[0] if rv else None) if one else rv
+
+def connect_db():
+    return sqlite3.connect('db.db')
 
 def latex_shite(subject='tiger', name='james'):
     t0 = time()
