@@ -4,7 +4,6 @@
 
 \usepackage[latin1]{inputenc}
 \usepackage{graphicx}
-\usepackage{textpos}
 \beamertemplatenavigationsymbolsempty
 
 \title[%s]{%s}
