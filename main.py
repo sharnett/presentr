@@ -8,16 +8,12 @@ from latex import presentation
 from udict import get_definitions
 from flask import g
 
-DEBUG = True
-MONGODB_HOST = 'localhost'
-MONGODB_PORT = 27017
-SECRET_KEY = 'secret'
-
+SECRET_KEY = 'KHY*&^jhg'
 app = flask.Flask(__name__)
 app.config.from_object(__name__)
 
 def main():
-    app.run()
+    app.run(host='0.0.0.0')
 
 @app.route('/')
 def show_entries():
@@ -38,9 +34,9 @@ def add_entry():
                         ' maybe with a different subject.')
         else:
             raise e
-   # except:
-   #     print sys.exc_info()
-   #     flask.flash('failed to create slides: %s' % str(sys.exc_info()))
+    except:
+        print sys.exc_info()
+        flask.flash('failed to create slides: %s' % str(sys.exc_info()))
     else:
         g.db = connect_db()
         args = [subject, name, url]

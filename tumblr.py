@@ -68,6 +68,8 @@ def get_captions(response, tag, limit=10):
             c2 += word + ' '
             if len(c2) >= 40 and re.search('\W', word): break
         captions[i] = c2
+    print 'inside tumblr.py, encoding captions...'
+    captions = [caption.encode('ascii','ignore') for caption in captions]
     return captions
 
 def clean(a):
