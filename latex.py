@@ -4,12 +4,12 @@ from random import randint
 from datetime import datetime
 
 def presentation(topic, name, titles, photos, captions, text, definitions):
-    themes = ['default', 'Antibes', 'Bergen', 'Berkeley', 'Berlin', 'Boadilla',
-            'CambridgeUS', 'Copenhagen', 'Darmstadt', 'Dresden', 'Frankfurt',
+    themes = ['default', 'Antibes', 'Bergen', 'Berkeley', 'Berlin', 
+            'Copenhagen', 'Darmstadt', 'Dresden', 'Frankfurt',
             'Ilmenau', 'JuanLesPins', 'Luebeck', 'Madrid', 'Malmoe',
-            'Montpellier', 'Pittsburgh', 'Rochester', 'Szeged', 'Warsaw']
-    colors = ['default', 'beaver', 'beetle', 'crane', 'dove', 'rose',
-            'seahorse', 'whale', 'lily']
+            'Szeged', 'Warsaw']
+    colors = ['default', 'beetle', 'crane', 'orchard', 'rose',
+            'whale', 'lily']
     N, l, newsection, i_title = 9, 0, 3, 0
     photos = [photo.encode('ascii','ignore') for photo in photos]
     captions = [caption.encode('ascii','ignore') for caption in captions]
@@ -29,7 +29,7 @@ def presentation(topic, name, titles, photos, captions, text, definitions):
     concl = open('latex_pieces/conclusion.txt').read()
     defn = open('latex_pieces/definition.txt').read()
     x = intro % (themes[randint(0,len(themes)-1)],
-            colors[randint(0,len(colors)-1)], topic, topic, name, 'hackNY')
+            colors[randint(0,len(colors)-1)], topic.capitalize(), topic.capitalize(), name.capitalize(), 'hackNY')
     outfile.write(x + '\n')
     x = defn %  (definitions[0],definitions[1],definitions[2])
     outfile.write(x + '\n')
