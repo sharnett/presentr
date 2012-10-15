@@ -25,6 +25,9 @@ def show_entries():
 
 @app.route('/add', methods=['POST'])
 def add_entry():
+    ''' grabs form data and passes it to latex_shite. if that works, add an
+    entry to the database and let the user know. otherwise try to say
+    something useful about the bajillion possible errors '''
     subject, name = flask.request.form['subject'], flask.request.form['name']
     msg = 'Presentr encountered an internal error. ' # flashed on webpage
     err = 'latex shite successful' # printed to log
@@ -39,7 +42,7 @@ def add_entry():
     except TumblrError as e: # not enough photos or captions
         msg += e.value
         err = 'tumblr error ' + e.value
-    except:
+    except: # prevent from crashing. comment this out for development
         err = str(sys.exc_info())
         msg += err
     else:
@@ -64,6 +67,11 @@ def connect_db():
     return sqlite3.connect('db.db')
 
 def latex_shite(subject='tiger', name='james'):
+    ''' does these things:
+    1. gets photos and captions from tumblr
+    2. gets titles and text from wikipedia
+    3. gets definition from urban dictionary
+    4. assembles them into beamer latex presentation '''
     print 'doing latex shite. topic: %s name: %s' % (subject, name)
     num_photos, num_captions, num_titles, num_sentences = 9, 9, 3, 30
     t0 = time()

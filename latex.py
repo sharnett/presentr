@@ -1,15 +1,13 @@
 import re
 import os
-from random import randint
+from random import randint, choice
 from datetime import datetime
 
 def presentation(topic, name, titles, photos, captions, text, definitions):
     themes = ['default', 'Antibes', 'Bergen', 'Berkeley', 'Berlin', 
-            'Copenhagen', 'Darmstadt', 'Dresden', 'Frankfurt',
-            'Ilmenau', 'JuanLesPins', 'Luebeck', 'Madrid', 'Malmoe',
-            'Szeged', 'Warsaw']
-    colors = ['default', 'beetle', 'crane', 'orchard', 'rose',
-            'whale', 'lily']
+            'Copenhagen', 'Darmstadt', 'Dresden', 'Frankfurt', 'Ilmenau', 
+            'JuanLesPins', 'Luebeck', 'Madrid', 'Malmoe', 'Szeged', 'Warsaw']
+    colors = ['default', 'beetle', 'crane', 'orchid', 'rose', 'whale', 'lily']
     N, l, newsection, i_title = 9, 0, 3, 0
     photos = [photo.encode('ascii','ignore') for photo in photos]
     captions = [caption.encode('ascii','ignore') for caption in captions]
@@ -24,8 +22,8 @@ def presentation(topic, name, titles, photos, captions, text, definitions):
     mframe = open('latex_pieces/framemiddle.txt').read()
     concl = open('latex_pieces/conclusion.txt').read()
     defn = open('latex_pieces/definition.txt').read()
-    x = intro % (themes[randint(0,len(themes)-1)],
-            colors[randint(0,len(colors)-1)], topic.capitalize(), topic.capitalize(), name.capitalize(), 'hackNY')
+    x = intro % (choice(themes), choice(colors), topic.capitalize(), 
+            topic.capitalize(), name.capitalize(), 'hackNY')
     outfile.write(x + '\n')
     x = defn %  (definitions[0],definitions[1],definitions[2])
     outfile.write(x + '\n')
