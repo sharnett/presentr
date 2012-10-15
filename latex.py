@@ -17,10 +17,6 @@ def presentation(topic, name, titles, photos, captions, text, definitions):
     captions = [re.sub('[^a-zA-Z\d\s]','',caption) for caption in captions]
     titles = [title.encode('ascii','ignore') for title in titles]
     text = [t.encode('ascii','ignore') for t in text]
-    print 'photos:', len(photos)
-    print 'captions:', len(captions)
-    print 'titles:', len(titles)
-    print 'text:', len(text)
     outfile = open('tmp/output.tex','w')
     intro = open('latex_pieces/introduction.txt').read()
     lframe = open('latex_pieces/frameleft.txt').read()

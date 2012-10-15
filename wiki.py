@@ -24,7 +24,7 @@ def getFacts(subject, num_titles=3, num_sentences=27):
     ('&nbsp;',' '),
     ('\w*\|\w*',''),
     ('\w*\}\}',''),
-    ('%',''),
+    ('[%${}]',''),
     ]
 
     def getTitle(section, text):

@@ -2,7 +2,7 @@ import sqlite3
 import flask
 import sys
 from time import time
-from tumblr import james, get_photos, get_captions
+from tumblr import james, get_photos, get_captions, TumblrError
 from wiki import getFacts
 from latex import presentation
 from udict import get_definitions
@@ -26,24 +26,32 @@ def show_entries():
 @app.route('/add', methods=['POST'])
 def add_entry():
     subject, name = flask.request.form['subject'], flask.request.form['name']
+    msg = 'Presentr encountered an internal error. ' # flashed on webpage
+    err = 'latex shite successful' # printed to log
     try:
         url = latex_shite(subject=subject, name=name)
     except KeyError as e:
-        if e.message == 'query':
-            flask.flash('Presentr encountered an internal error. Try again,'
-                        ' maybe with a different subject.')
+        if e.message == 'query': # no wikipedia page for the subject
+            msg += 'Try again, maybe with a different subject.'
+            err = 'KeyError: query'
         else:
-            raise e
+            err = 'KeyError: ' + e.message
+    except TumblrError as e: # not enough photos or captions
+        msg += e.value
+        err = 'tumblr error ' + e.value
     except:
-        print sys.exc_info()
-        flask.flash('failed to create slides: %s' % str(sys.exc_info()))
+        err = str(sys.exc_info())
+        msg += err
     else:
         g.db = connect_db()
         args = [subject, name, url]
         collection = query_db('insert into james values (?,?,?)', args)
         g.db.commit()
-        flask.flash('Success! Download your pReSeNtRation below.')
         g.db.close()
+        msg = 'Success! Download your pReSeNtRation below.'
+    finally:
+        print err
+        flask.flash(msg)
     return flask.redirect(flask.url_for('show_entries'))
 
 def query_db(query, args=(), one=False):
@@ -56,16 +64,16 @@ def connect_db():
     return sqlite3.connect('db.db')
 
 def latex_shite(subject='tiger', name='james'):
+    print 'doing latex shite. topic: %s name: %s' % (subject, name)
+    num_photos, num_captions, num_titles, num_sentences = 9, 9, 3, 30
     t0 = time()
     tumblr_response = james(limit=20, tag=subject)['response']
-    photos = get_photos(tumblr_response, limit=9)
-    for photo in photos:
-        print photo
-    captions = get_captions(tumblr_response, subject, limit=9)
-    for i, caption in enumerate(captions):
-        print i, caption
+    photos = get_photos(tumblr_response, limit=num_photos)
+    print 'photos:', len(photos)
+    captions = get_captions(tumblr_response, subject, limit=num_captions)
+    print 'captions:', len(captions)
     t1 = time()
-    titles, text = getFacts(subject, num_titles=3, num_sentences=30)
+    titles, text = getFacts(subject, num_titles=num_titles, num_sentences=num_sentences)
     t2 = time()
     definitions = get_definitions(subject)
     t3 = time()

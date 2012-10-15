@@ -3,6 +3,12 @@ from urllib2 import urlopen
 from json import load, dumps
 from multiprocessing import Pool
 
+class TumblrError(Exception):
+    def __init__(self, value):
+        self.value = value
+    def __str__(self):
+        return repr(self.value)
+
 def get_data(url):
     ''' used by parallel crap in get_photos. given a url to a photo, determine
     the extension and read in the binary data. the way multiprocessing works,
@@ -39,10 +45,13 @@ def get_photos(response, limit=10):
             if j >= j_max: break
         urls[i] = url
     urls = clean(urls)[:limit]
+    if len(urls) < limit:
+        raise TumblrError('Too few photos on tumblr.')
     # parallel crap
     pool = Pool(processes=limit)
     pairs = pool.map_async(get_data, urls).get(timeout=5)
     pool.close()
+    pool.join()
     for i, p in enumerate(pairs):
         extension, data = p
         photos[i] = 'tmp/%d'%i + extension 
@@ -68,7 +77,8 @@ def get_captions(response, tag, limit=10):
             c2 += word + ' '
             if len(c2) >= 40 and re.search('\W', word): break
         captions[i] = c2
-    print 'inside tumblr.py, encoding captions...'
+    if len(captions) < limit:
+        raise TumblrError('Too few captions on tumblr.')
     captions = [caption.encode('ascii','ignore') for caption in captions]
     return captions
 
