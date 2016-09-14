@@ -33,7 +33,7 @@ def getFacts(subject, num_titles=3, num_sentences=27):
         return header.group(1)
 
     def getText(section):
-        url = 'http://en.wikipedia.org/w/api.php?action=query&prop=revisions&rvprop=content&rvsection=%d&titles=%s&format=json'
+        url = 'http://en.wikipedia.org/w/api.php?action=query&prop=revisions&rvprop=content&rvsection=%d&titles=%s&format=json&redirects=true'
         article = load(urlopen(url % (section, subject)))
         if not 'query' in article:
             article = load(urlopen(url % (section, subject.title())))
