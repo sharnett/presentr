@@ -1,5 +1,5 @@
 import re
-from urllib2 import urlopen
+from urllib.request import urlopen
 from json import load, dumps
 from multiprocessing import Pool
 
@@ -30,6 +30,7 @@ def get_photos(response, limit=10):
     0,1,2,...,limit-1 and same extension. returns list of file names '''
     max_height = 400
     n = len(response)
+    print("{} responses from tumblr".format(n))
     urls, photos = [None]*n, [None]*limit
     for i, r in enumerate(response):            # loop through each post
         if 'photos' not in r: continue          # ignore posts without photos
@@ -45,6 +46,7 @@ def get_photos(response, limit=10):
             if j >= j_max: break
         urls[i] = url
     urls = clean(urls)[:limit]
+    print("{} clean urls from tumblr".format(len(urls)))
     if len(urls) < limit:
         raise TumblrError('Too few photos on tumblr.')
     # parallel crap
@@ -79,7 +81,7 @@ def get_captions(response, tag, limit=10):
         captions[i] = c2
     if len(captions) < limit:
         raise TumblrError('Too few captions on tumblr.')
-    captions = [caption.encode('ascii','ignore') for caption in captions]
+    captions = [str(caption) for caption in captions]
     return captions
 
 def clean(a):
@@ -87,14 +89,14 @@ def clean(a):
     return [x for x in a if x]
 
 if __name__ == '__main__':
-    subject = raw_input('topic: ')
-    response = james(limit=20, tag=subject)['response']
+    subject = input('topic: ')
+    response = james(limit=50, tag=subject)['response']
     #print dumps(response[:5], sort_keys=True, indent=4)
-    print 'PHOTOS'
+    print('PHOTOS')
     photos = get_photos(response)
     captions = get_captions(response, subject)
     for i, photo in enumerate(photos):
-        print i+1, photo
-    print 'CAPTIONS'
+        print(i+1, photo)
+    print('CAPTIONS')
     for i, caption in enumerate(captions):
-        print i+1, caption
+        print(i+1, caption)

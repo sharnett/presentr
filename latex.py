@@ -9,12 +9,12 @@ def presentation(topic, name, titles, photos, captions, text, definitions):
             'JuanLesPins', 'Luebeck', 'Madrid', 'Malmoe', 'Szeged', 'Warsaw']
     colors = ['default', 'beetle', 'crane', 'orchid', 'rose', 'whale', 'lily']
     N, l, newsection, i_title = 9, 0, 3, 0
-    photos = [photo.encode('ascii','ignore') for photo in photos]
-    captions = [caption.encode('ascii','ignore') for caption in captions]
+    photos = [photo for photo in photos]
+    captions = [caption for caption in captions]
     captions = [re.sub('<[^<]+?>', '', caption) for caption in captions]
     captions = [re.sub('[^a-zA-Z\d\s]','',caption) for caption in captions]
-    titles = [title.encode('ascii','ignore') for title in titles]
-    text = [t.encode('ascii','ignore') for t in text]
+    titles = [title for title in titles]
+    text = [t for t in text]
     outfile = open('tmp/output.tex','w')
     intro = open('latex_pieces/introduction.txt').read()
     lframe = open('latex_pieces/frameleft.txt').read()
@@ -27,7 +27,7 @@ def presentation(topic, name, titles, photos, captions, text, definitions):
     outfile.write(x + '\n')
     x = defn %  (definitions[0],definitions[1],definitions[2])
     outfile.write(x + '\n')
-    for k in xrange(0,3*N-1,3):
+    for k in range(0,3*N-1,3):
         p = randint(1,3)
         if newsection == 3:
             if p == 1:
@@ -80,7 +80,7 @@ def presentation(topic, name, titles, photos, captions, text, definitions):
                 age = os.stat('static/' + pdf).st_ctime 
                 if age < oldest_age: 
                     oldest_pdf, oldest_age = pdf, age
-            print 'removing', oldest_pdf
+            print('removing', oldest_pdf)
             os.remove('static/' + oldest_pdf)
     else: # don't delete temp files if error
         raise Exception('latex error')

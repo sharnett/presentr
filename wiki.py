@@ -1,4 +1,4 @@
-from urllib2 import urlopen
+from urllib.request import urlopen
 from json import load,dumps
 import re
 from random import sample
@@ -39,7 +39,7 @@ def getFacts(subject, num_titles=3, num_sentences=27):
             article = load(urlopen(url % (section, subject.title())))
         if not 'query' in article:
             article = load(urlopen(url % (section, subject.lower())))
-        articleID = article['query']['pages'].keys()
+        articleID = list(article['query']['pages'].keys())
         articleText = article['query']['pages'][articleID[0]]['revisions'][0]['*']
         for substitution in translate:
             articleText = re.sub(substitution[0], substitution[1],articleText)
@@ -47,7 +47,7 @@ def getFacts(subject, num_titles=3, num_sentences=27):
         return articleText
 
     n = num_sentences/num_titles
-    titles = [getTitle(i, getText(i)) for i in xrange(1, num_titles+1)]
+    titles = [getTitle(i, getText(i)) for i in range(1, num_titles+1)]
     text = []
     section = 1
     while len(text) < num_sentences:
@@ -59,16 +59,16 @@ def getFacts(subject, num_titles=3, num_sentences=27):
     while len(text) < num_sentences:
         text += ['james']
     text = sample(text, num_sentences)
-    for i in xrange(len(text)):
+    for i in range(len(text)):
         text[i] = re.sub('\=*.*?\=*','',text[i]) # now that titles have been extracted, get rid of remaining subtitles
-    for i in xrange(len(titles)):
+    for i in range(len(titles)):
         titles[i] = re.sub('=','',titles[i]) # get rid of stray =
     return titles, text
 
 if __name__ == '__main__':
-    subject = raw_input('topic: ')
+    subject = input('topic: ')
     titles, text = getFacts(subject)
     for i, title in enumerate(titles):
-        print i, title
+        print(i, title)
     for i, t in enumerate(text):
-        print i, t
+        print(i, t)

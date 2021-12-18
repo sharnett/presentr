@@ -9,7 +9,7 @@ def get_definitions(tag):
 	for i in range(3):
 		try:
 			defns.append(result.json()['list'][i]['definition'])
-		except IndexError, KeyError:
+		except IndexError as KeyError:
 			break
 
 	# padding:
@@ -25,7 +25,7 @@ def get_definitions(tag):
 	return defns
 
 if __name__ == '__main__':
-	tag = raw_input('topic: ')	
+	tag = input('topic: ')	
 	definitions = get_definitions(tag)
 	for d in definitions:
 		print(d)

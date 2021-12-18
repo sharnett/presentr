@@ -8,7 +8,7 @@ from latex import presentation
 from udict import get_definitions
 from flask import g
 
-SECRET_KEY = 'KHY*&^jhg'
+SECRET_KEY = 'KHY*&^jhgaaaaaa'
 app = flask.Flask(__name__)
 app.config.from_object(__name__)
 
@@ -18,7 +18,10 @@ def main():
 @app.route('/')
 def show_entries():
     g.db = connect_db()
-    collection = query_db('select * from james')
+    try:
+        collection = query_db('select * from james')
+    except:
+        query_db('create table james (subject, name, url)')
     g.db.close()
     entries = [{'subject': p['subject'], 'name': p['name'], 'url': p['url']} for p in collection]
     return flask.render_template('template.html', entries=entries[:-6:-1])
@@ -53,7 +56,7 @@ def add_entry():
         g.db.close()
         msg = 'Success! Download your pReSeNtRation below.'
     finally:
-        print err
+        print(err)
         flask.flash(msg)
     return flask.redirect(flask.url_for('show_entries'))
 
@@ -72,14 +75,14 @@ def latex_shite(subject='tiger', name='james'):
     2. gets titles and text from wikipedia
     3. gets definition from urban dictionary
     4. assembles them into beamer latex presentation '''
-    print 'doing latex shite. topic: %s name: %s' % (subject, name)
+    print('doing latex shite. topic: %s name: %s' % (subject, name))
     num_photos, num_captions, num_titles, num_sentences = 9, 9, 3, 30
     t0 = time()
     tumblr_response = james(limit=20, tag=subject)['response']
     photos = get_photos(tumblr_response, limit=num_photos)
-    print 'photos:', len(photos)
+    print('photos:', len(photos))
     captions = get_captions(tumblr_response, subject, limit=num_captions)
-    print 'captions:', len(captions)
+    print('captions:', len(captions))
     t1 = time()
     titles, text = getFacts(subject, num_titles=num_titles, num_sentences=num_sentences)
     t2 = time()
@@ -87,10 +90,10 @@ def latex_shite(subject='tiger', name='james'):
     t3 = time()
     url = presentation(subject, name, titles, photos, captions, text, definitions)
     t4 = time()
-    print 'tumblr:', t1-t0
-    print 'wiki:', t2-t1
-    print 'urbandictionary:', t3-t2
-    print 'latex:', t4-t3
+    print('tumblr:', t1-t0)
+    print('wiki:', t2-t1)
+    print('urbandictionary:', t3-t2)
+    print('latex:', t4-t3)
     return url
 
 if __name__ == '__main__':
